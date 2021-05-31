@@ -1,0 +1,43 @@
+body, article {
+	@media print {
+		background: white;
+	}
+}
+header,
+.subnav {
+	@media print {
+		display: none;
+	}
+}
+main {
+	@media print {
+		overflow: unset;
+		overflow-y: visible;
+	}
+}
+
+	@media print {
+		.columns {
+			column-count: auto;
+		}
+		.col {
+			-webkit-column-break-inside: auto;
+			page-break-inside: auto;
+			break-inside: auto;
+		}
+		.token, .header-img, .gatsby-resp-image-wrapper, picture, img {
+			display:none!important;
+		}
+		.adventure {
+			box-shadow: none;
+		}
+		.post-grid, .mailing-list {
+			display: none;
+		}
+	}
+
+.wrapper {
+	@media print {
+		max-width: 100%;
+	}
+}

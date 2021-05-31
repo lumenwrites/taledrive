@@ -1,0 +1,44 @@
+header {
+  background: $header-bg;
+  padding: 10px;
+
+  border-top: 2px solid #f66303;
+  .logo {
+    font-family: "RobotoSlab";
+    font-size: 22px;
+    color: $text;
+    float: left;
+    img, .logo-image {
+      width: 32px;
+      height: 32px;
+      float: left;
+      margin-right: 4px;
+    }
+  }
+  nav {
+    float: right;
+  }
+  .btn-nav {
+    margin-left: 4px;
+  }
+
+  .dropdown .menu {
+      left: 4px;
+      top: calc(100% + 5px); // not sure why 5
+  }
+  @media print {
+    display: none;
+  }
+}
+
+.subnav {
+  background: $subnav-bg;
+  #file-input {
+    display: none;
+  }
+  svg {
+    color: $text-dim;
+    margin-right: 4px;
+    max-height: 16px;
+  }
+}
