@@ -1,11 +1,39 @@
 .editor {
-  margin-top: 20px;
+  margin-top: 10px;
   padding: 20px 40px;
   background-image: url(/paper_bg.jpg);
   background-color: #eee5ce;
-  box-shadow: 1px 4px 14px #000;
+  box-shadow: 0px 0px 4px #00000082;
   font-family: BookSanity;
   color: #000;
   border-radius: 2px;
+
+  // width: 210mm;
+  // height: 297mm;
+  width: 794px; 
+  height: 1123px;
+  overflow: hidden;
+  overflow-y: auto;
+  h1,
+  h2,
+  h3 {
+    color: #58180d;
+    font-family: MrJeeves;
+    font-weight: 800;
+  }
+  h3 {
+    border-bottom: 2px solid #c9ad6a;
+    font-size: 1.25em;
+  }
+  h4,
+  h5 {
+    color: #58180d;
+    font-family: ScalySansSmallCaps;
+    font-weight: bold;
+  }
+  hr {
+    border-top: 2px solid #c9ad6a;
+    margin-bottom: 10px;
+  }
 
 }

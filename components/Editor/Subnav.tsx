@@ -7,7 +7,7 @@ class Subnav extends Component {
       <div className="subnav">
         <div className="wrapper">
           <div className="dropdown">
-            <div className="menu-handle btn">
+            <div className="menu-handle btn btn-subnav">
               <FontAwesomeIcon icon={["fas", "file"]} />
               File
             </div>

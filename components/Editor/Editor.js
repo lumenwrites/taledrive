@@ -1,77 +1,79 @@
+// @refresh reset
 // Import React dependencies.
 import { useEffect, useMemo, useState, useCallback } from "react"
 // Import the Slate editor factory.
-import { createEditor, Editor, Transforms } from "slate"
+import { createEditor, Editor, Transforms, Text } from "slate"
 // Import the Slate components and React plugin.
 import { Slate, Editable, withReact } from "slate-react"
-
+// Import elements
+import { renderElement, renderLeaf } from 'components/Editor/Elements'
 // TypeScript Users only add this code
 import { BaseEditor } from "slate"
 import { ReactEditor } from "slate-react"
+import { Commands } from './Commands'
 
-import Layout from "components/Layout"
-import Subnav from "components/Editor/Subnav"
+const isServer = typeof window === "undefined";
+const defaultDoc = [
+  {
+    type: "paragraph",
+    children: [{ text: "A line of text in a paragraph." }],
+  },
+]
 
 const EditorComponent = () => {
-  const editor = useMemo(() => withReact(createEditor()), [])
-  // Add the initial value when setting up our state.
-  const [value, setValue] = useState([
-    {
-      type: "paragraph",
-      children: [{ text: "A line of text in a paragraph." }],
-    },
-  ])
 
-  function onKeyDown(e) {
-    if (e.key === "1") { //  && e.metaKey && e.altKey //  && e.ctrlKey && e.altKey // metaKey
-      e.preventDefault()
-      // Determine whether any of the currently selected blocks are code blocks.
-      const [match] = Editor.nodes(editor, {
-        match: n => n.type === 'heading',
-      })
-      // Toggle the block type depending on whether there's already a match.
-      Transforms.setNodes(
-        editor,
-        { type: match ? 'paragraph' : 'heading' },
-        { match: n => Editor.isBlock(editor, n) }
-      )
+  const editor = useMemo(() => withReact(createEditor()), [])
+  
+  // Add the initial value when setting up our state.
+  let savedDoc
+  if (!isServer) savedDoc = JSON.parse(localStorage.getItem('content'))
+  const [value, setValue] = useState(savedDoc|| defaultDoc)
+
+  function onKeyDown(event) {
+    // console.log(event.keyCode, event.keyCode==49)
+    const holdingHotkey = event.metaKey // event.metaKey && event.altKey
+    if (!holdingHotkey) return
+
+    switch (event.key) {
+      // When "`" is pressed, keep our existing code block logic.
+      case '1': {
+        event.preventDefault()
+        Commands.toggleHeading(editor)
+        break
+      }
+
+      // When "B" is pressed, bold the text in the selection.
+      case 'b': {
+        event.preventDefault()
+        Commands.toggleBoldMark(editor)
+        break
+      }
     }
   }
-  
-  const renderElement = useCallback(props => {
-    switch (props.element.type) {
-      case 'heading':
-        return <HeadingElement {...props} />
-      default:
-        return <DefaultElement {...props} />
-    }
-  }, [])
+  function onChange(value) {
+    setValue(value)
+    // Save the value to Local Storage.
+    const content = JSON.stringify(value)
+    localStorage.setItem('content', content)
+  }
+
+
   return (
-    <Layout subnav={<Subnav />}>
       <div className="editor">
         <Slate
           editor={editor}
           value={value}
-          onChange={(newValue) => setValue(newValue)}
+          onChange={onChange}
         >
           <Editable
             renderElement={renderElement}
+            renderLeaf={renderLeaf}
             onKeyDown={(event) => onKeyDown(event)}
           />
         </Slate>
       </div>
-    </Layout>
   )
 }
 
-
-const DefaultElement = (props) => {
-  return <p {...props.attributes}>{props.children}</p>
-}
-
-// Define a React component renderer for our code blocks.
-const HeadingElement = (props) => {
-  return <h1 {...props.attributes}>{props.children}</h1>
-}
 
 export default EditorComponent

@@ -1,43 +1,24 @@
-body, article {
-	@media print {
-		background: white;
+@media print {
+	@page { 
+		size: 794px 1124px; 
+		margin: 0px; 
+		visibility: hidden; 
 	}
-}
-header,
-.subnav {
-	@media print {
-		display: none;
-	}
-}
-main {
-	@media print {
-		overflow: unset;
-		overflow-y: visible;
-	}
-}
-
-	@media print {
-		.columns {
-			column-count: auto;
-		}
-		.col {
-			-webkit-column-break-inside: auto;
-			page-break-inside: auto;
-			break-inside: auto;
-		}
-		.token, .header-img, .gatsby-resp-image-wrapper, picture, img {
-			display:none!important;
-		}
-		.adventure {
-			box-shadow: none;
-		}
-		.post-grid, .mailing-list {
-			display: none;
-		}
-	}
-
-.wrapper {
-	@media print {
-		max-width: 100%;
-	}
+  header,
+  .subnav {
+    display: none;
+  }
+  main {
+    overflow: unset;
+    overflow-y: visible;
+  }
+  .wrapper {
+    max-width: 100%;
+  }
+  .editor {
+    box-shadow: none;
+    margin-top: 0;
+		width: 794px; 
+		height: 1123px;
+  }
 }
